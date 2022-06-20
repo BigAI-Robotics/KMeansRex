@@ -33,7 +33,7 @@ Date:   2 April 2013
 */
 
 #include <iostream>
-#include "KMeansRexCoreInterface.h"
+#include "KMeansRexCore.h"
 #include "mersenneTwister2002.c"
 #include "Eigen/Dense"
 
@@ -136,10 +136,12 @@ void sampleRowsPlusPlus( ExtMat &X, ExtMat &Mu ) {
     }       
 }
 
-void init_Mu( ExtMat &X, ExtMat &Mu, const char* initname ) {		  
+void init_Mu( ExtMat &X, ExtMat &Mu, const std::string initname ) {		  
     if (string(initname) == "random") {
         sampleRowsRandom( X, Mu );
     } else if (string(initname) == "plusplus") {
+        sampleRowsPlusPlus( X, Mu );
+    } else {
         sampleRowsPlusPlus( X, Mu );
     }
 }
@@ -212,7 +214,7 @@ void run_lloyd( ExtMat &X, ExtMat &Mu, ExtMat &Z, int Niter )  {
 // ===========================================================================
 
 void RunKMeans(double *X_IN,  int N,  int D, int K, int Niter, \
-               int seed, char* initname, double *Mu_OUT, double *Z_OUT) {
+               int seed, std::string initname, double *Mu_OUT, double *Z_OUT) {
   set_seed(seed);
 
   ExtMat X (X_IN, N, D);
